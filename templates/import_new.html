@@ -1,0 +1,120 @@
+{% extends "layout.html" %}
+
+{% block title %} Import {% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+        <h4>Importowanie książek do bazy danych</h4>
+    </div>
+    <div class="jumbotron col-12">
+        <form method="post" action="/import_books_new">
+            {{ form.hidden_tag() }}
+
+            <div class="card border-dark mb-3">
+                <div class="card-header"><strong>Wyszukiwanie</strong></div>
+                <div class="card-body text-dark">
+                    <fieldset class="form-group">
+                        {{ form.q.label }}
+                        {{ form.q(class="form-control") }}
+                        {% if form.q.errors %}
+                            <ul class="errors">
+                              {% for error in form.q.errors %}
+                                <li style="color: red;">{{ error }}</li>
+                              {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </fieldset>
+
+                    <fieldset class="form-group">
+                        {{ form.intitle.label }}
+                        {{ form.intitle(class="form-control") }}
+                    </fieldset>
+
+                    <fieldset class="form-group">
+                        {{ form.inauthor.label }}
+                        {{ form.inauthor(class="form-control") }}
+                    </fieldset>
+
+                    <fieldset class="form-group">
+                        {{ form.inpublisher.label }}
+                        {{ form.inpublisher(class="form-control") }}
+                    </fieldset>
+
+                    <fieldset class="form-group">
+                        {{ form.subject.label }}
+                        {{ form.subject(class="form-control") }}
+                    </fieldset>
+
+                    <fieldset class="form-group">
+                        {{ form.isbn.label }}
+                        {{ form.isbn(class="form-control") }}
+                    </fieldset>
+
+                    <fieldset class="form-group">
+                        {{ form.lccn.label }}
+                        {{ form.lccn(class="form-control") }}
+                    </fieldset>
+
+                    <fieldset class="form-group">
+                        {{ form.oclc.label }}
+                        {{ form.oclc(class="form-control") }}
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="card border-dark mb-3">
+                <div class="card-header"><strong>Filtrowanie</strong></div>
+                <div class="card-body text-dark">
+                    <fieldset class="form-group">
+                        <div class="form-check">
+                            <input id="partial_checkbox" name="partial" class="form-check-input" type="checkbox" value="partial">
+                            <label class="form-check-label" for="partial_checkbox">Zwraca wyniki, w których przynajmniej część tekstu jest możliwa do podglądu</label>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="form-group">
+                        <div class="form-check">
+                            <input id="full_checkbox" name="full" class="form-check-input" type="checkbox" value="full">
+                            <label class="form-check-label" for="full_checkbox">Zwraca wyniki, w których cały tekst jest widoczny</label>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="form-group">
+                        <div class="form-check">
+                            <input id="free_ebooks_checkbox" name="free_ebooks" class="form-check-input" type="checkbox" value="free_ebooks">
+                            <label class="form-check-label" for="free_ebooks_checkbox">Zwraca wyniki, które są darmowymi eBookami Google</label>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="form-group">
+                        <div class="form-check">
+                            <input id="paid_ebooks_checkbox" name="paid_ebooks" class="form-check-input" type="checkbox" value="paid_ebooks">
+                            <label class="form-check-label" for="paid_ebooks_checkbox">Zwraca wyniki, które są eBookami Google z podaną ceną</label>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="form-group">
+                        <div class="form-check">
+                            <input id="ebooks_checkbox" name="ebooks" class="form-check-input" type="checkbox" value="ebooks">
+                            <label class="form-check-label" for="ebooks_checkbox">Zwraca wyniki, które są eBookami Google, płatnymi lub bezpłatnymi</label>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 10px;">
+                <div class="col-3"></div>
+                <div class="col-2">
+                    <button name="submit_button" type="submit" class="btn btn-success" value="import">Importuj</button>
+                </div>
+                <div class="col-2"></div>
+                <div class="col-2">
+                    <button name="submit_button" type="submit" class="btn btn-success" value="preview">Podgląd</button>
+                </div>
+                <div class="col-3"></div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

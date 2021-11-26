@@ -1,0 +1,102 @@
+{% extends "layout.html" %}
+
+{% block title %} Booklist {% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
+    <link rel="stylesheet"
+          href="https://unpkg.com/ag-grid-community/dist/styles/ag-grid.css">
+    <link rel="stylesheet"
+          href="https://unpkg.com/ag-grid-community/dist/styles/ag-theme-alpine.css">
+{% endblock %}
+
+{% block content %}
+
+    <div class="col-4">
+        <input id="search" type="text" class="form-control"
+               style="margin-bottom: 1vw;" placeholder="Szukaj..."
+               oninput="onFilterTextBoxChanged()">
+    </div>
+    <div class="col-8"></div>
+    <div id="booklist" style="height: 600px;" class="ag-theme-alpine"></div>
+    <script>
+        const filterParameters = {
+            comparator: function (filter_local_date_at_midnight, cell_value) {
+                if (cell_value == null)
+                    return -1;
+
+                const date_parts = cell_value.split('-')
+                const cell_date = new Date(
+                    Number(date_parts[0]),
+                    Number(date_parts[1]) - 1,
+                    Number(date_parts[2])
+                )
+
+                if (filter_local_date_at_midnight.getTime() === cell_date.getTime()) {
+                    return 0;
+                }
+                if (cell_date < filter_local_date_at_midnight) {
+                    return -1;
+                }
+                if (cell_date > filter_local_date_at_midnight) {
+                    return 1;
+                }
+            },
+            browserDatePicker: true
+        }
+
+        function onFilterTextBoxChanged() {
+            gridOptions.api.setQuickFilter(document.getElementById('search').value);
+        }
+
+        const columnDefs = [
+            {field: 'id', headerName: 'Numer wpisu'},
+            {field: 'isbn_10', headerName: 'ISBN10'},
+            {field: 'isbn_13', headerName: 'ISBN13'},
+            {field: 'other_identifier', headerName: 'Inny identyfikator'},
+            {field: 'title', headerName: 'Tytuł'},
+            {
+                field: 'authors', headerName: 'Autorzy',
+                cellRenderer: function (param) {
+                    return param.data.authors.replace('\n', '<br/>')
+                },
+                autoHeight: true
+            },
+            {
+                field: 'published_date',
+                headerName: 'Data publikacji',
+                filter: 'agDateColumnFilter',
+                filterParams: filterParameters
+            },
+            {field: 'page_count', headerName: 'Liczba stron'},
+            {field: 'cover_link', headerName: 'Link do okładki'},
+            {field: 'language', headerName: 'Język'}
+        ];
+
+        const gridOptions = {
+            columnDefs: columnDefs,
+            defaultColDef: {
+                filter: true,
+                resizable: true,
+                sortable: true
+            },
+            pagination: true,
+            paginationAutoPageSize: true,
+            onCellDoubleClicked: function (rowData) {
+                window.location.href = "/book/" + rowData.data.id;
+            }
+        };
+
+        const eGridDiv = document.querySelector('#booklist');
+
+        {# TODO dodać link #}
+        agGrid.simpleHttpRequest({url: 'http://localhost:5000/get_books'}).then(function (data) {
+            gridOptions.api.setRowData(data);
+
+            gridOptions.api.sizeColumnsToFit();
+        });
+
+        new agGrid.Grid(eGridDiv, gridOptions);
+    </script>
+{% endblock %}

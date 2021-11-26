@@ -1,0 +1,135 @@
+{% extends "layout.html" %}
+
+{% block title %} Add or Save {% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+        <h4>{{ title }}</h4>
+    </div>
+
+    <div class="jumbotron col-12">
+        <form method="post" action="{{ action }}" novalidate>
+            {{ form.hidden_tag() }}
+
+            <fieldset class="form-group">
+                {{ form.isbn_10.label }}
+                {% if form.isbn_10.errors %}
+                    <ul class="errors">
+                        {% for error in form.isbn_10.errors %}
+                            <li style="color: red;">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </fieldset>
+
+            <fieldset class="form-group">
+                {{ form.isbn_13.label }}
+                {{ form.isbn_13(class="form-control") }}
+                {% if form.isbn_13.errors %}
+                    <ul class="errors">
+                        {% for error in form.isbn_13.errors %}
+                            <li style="color: red;">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </fieldset>
+
+            <fieldset class="form-group">
+                {{ form.other_identifier.label }}
+                {{ form.other_identifier(class="form-control") }}
+            </fieldset>
+
+            <fieldset class="form-group">
+                {{ form.title.label }}
+                {{ form.title(class="form-control") }}
+                {% if form.title.errors %}
+                    <ul class="errors">
+                        {% for error in form.title.errors %}
+                            <li style="color: red;">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </fieldset>
+
+            <fieldset class="form-group">
+                {{ form.published_date.label }}
+                {{ form.published_date(class="form-control") }}
+                {% if form.published_date.errors %}
+                    <ul class="errors">
+                        {% for error in form.published_date.errors %}
+                            <li style="color: red;">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </fieldset>
+
+            <fieldset class="form-group">
+                {{ form.page_count.label }}
+                {{ form.page_count(class="form-control") }}
+                {% if form.page_count.errors %}
+                    <ul class="errors">
+                        {% for error in form.page_count.errors %}
+                            <li style="color: red;">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </fieldset>
+
+            <fieldset class="form-group">
+                {{ form.cover_link.label }}
+                {{ form.cover_link(class="form-control") }}
+                {% if form.cover_link.errors %}
+                    <ul class="errors">
+                        {% for error in form.cover_link.errors %}
+                            <li style="color: red;">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </fieldset>
+
+            <fieldset class="form-group">
+                {{ form.language.label }}
+                {{ form.language(class="form-control") }}
+                {% if form.language.errors %}
+                    <ul class="errors">
+                        {% for error in form.language.errors %}
+                            <li style="color: red;">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </fieldset>
+
+            <fieldset class="form-group">
+                {{ form.authors.label }}
+                {{ form.authors(class="form-control",
+                                placeholder="Rozdziel autorów za pomocą znaku nowej linii") }}
+                {% if form.authors.errors %}
+                    <ul class="errors">
+                        {% for error in form.authors.errors %}
+                            <li style="color: red;">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </fieldset>
+
+            <div class="row" style="margin-top: 10px;">
+                <div class="col-5"></div>
+                <div class="col-2">
+                    {% if title == 'Dodawanie książki' %}
+                        <button type="submit" class="btn btn-success"
+                                value="add" formnovalidate>Dodaj
+                        </button>
+                    {% else %}
+                        <button type="submit" class="btn btn-success"
+                                value="save" formnovalidate>Zapisz
+                        </button>
+                    {% endif %}
+                </div>
+                <div class="col-5"></div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
