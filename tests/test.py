@@ -19,10 +19,10 @@ class MyTestCase(unittest.TestCase):
         self.app.testing = True
         self.app.config[
             'SQLALCHEMY_DATABASE_URI'] = 'mysql://{}:{}@{}/{}'.format(
-            config.mysql_config['user'],
-            config.mysql_config['password'],
-            config.mysql_config['host'],
-            config.mysql_config['db']
+            config.postgres_config['user'],
+            config.postgres_config['password'],
+            config.postgres_config['host'],
+            config.postgres_config['db']
         )
         db.init_app(self.app)
         self.db = db
@@ -36,10 +36,10 @@ class MyTestCase(unittest.TestCase):
         self.app = Flask(__name__)
         self.app.config[
             'SQLALCHEMY_DATABASE_URI'] = 'mysql://{}:{}@{}/{}'.format(
-            config.mysql_config_test['user'],
-            config.mysql_config_test['password'],
-            config.mysql_config_test['host'],
-            config.mysql_config_test['db']
+            config.postgres_config_test['user'],
+            config.postgres_config_test['password'],
+            config.postgres_config_test['host'],
+            config.postgres_config_test['db']
         )
         db.init_app(self.app)
         with self.app.app_context():

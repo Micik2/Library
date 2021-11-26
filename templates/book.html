@@ -15,6 +15,7 @@
 
             <fieldset class="form-group">
                 {{ form.isbn_10.label }}
+                {{ form.isbn_10(class="form-control") }}
                 {% if form.isbn_10.errors %}
                     <ul class="errors">
                         {% for error in form.isbn_10.errors %}

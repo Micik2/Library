@@ -90,7 +90,6 @@
 
         const eGridDiv = document.querySelector('#booklist');
 
-        {# TODO dodać link #}
         agGrid.simpleHttpRequest({url: 'http://localhost:5000/get_books'}).then(function (data) {
             gridOptions.api.setRowData(data);
 

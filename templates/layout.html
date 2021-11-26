@@ -2,8 +2,6 @@
 <html>
 <head>
     {% block head %}
-        <link rel="stylesheet"
-              href="{{ url_for('static', filename='style.css') }}">
         <title>{% block title %}{% endblock %} - My Webpage</title>
         <link rel="stylesheet"
               href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -39,11 +37,6 @@
                         <a class="btn btn-info nav-link text-white"
                            href="/books" style="margin: 0.25vw;">Lista
                             książek</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-info nav-link text-white"
-                           href="/import_books" style="margin: 0.25vw;">Importuj
-                            listę książek</a>
                     </li>
                     <li class="nav-item">
                         <a class="btn btn-info nav-link text-white"

@@ -19,19 +19,20 @@ from flask_cors import \
     CORS, \
     cross_origin
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import asc
 
 import config
 import form as custom_form
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://' \
-                                        + config.mysql_config['user'] \
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://' \
+                                        + config.postgres_config['user'] \
                                         + ':' \
-                                        + config.mysql_config['password'] \
+                                        + config.postgres_config['password'] \
                                         + '@' \
-                                        + config.mysql_config['host'] \
+                                        + config.postgres_config['host'] \
                                         + '/' \
-                                        + config.mysql_config['db']
+                                        + config.postgres_config['db']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = config.secret_key
 
@@ -67,7 +68,7 @@ class Book(db.Model):
     authors = db.Column(db.Text, nullable=False)
 
 
-db.create_all()
+# db.create_all()
 
 
 @app.route('/')
@@ -188,7 +189,7 @@ def books():
 @app.route('/get_books', methods=['GET'])
 def get_books():
     """ Function that generates a json with a list of books """
-    existing_books = db.session.query(Book).all()
+    existing_books = db.session.query(Book).order_by(asc(Book.id)).all()
     books_json = []
     for existing_book in existing_books:
         if hasattr(existing_book, '_sa_instance_state'):
@@ -198,8 +199,8 @@ def get_books():
     response = jsonify(books_json)
     if len(books_json) > 0:
         response.status_code = 200
-    else:
-        response.status_code = 204
+    # else:
+    #     response.status_code = 204
     return response
 
 
@@ -337,4 +338,4 @@ def import_to_database(json_data):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
