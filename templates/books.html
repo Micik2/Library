@@ -90,7 +90,7 @@
 
         const eGridDiv = document.querySelector('#booklist');
 
-        agGrid.simpleHttpRequest({url: 'http://localhost:5000/get_books'}).then(function (data) {
+        agGrid.simpleHttpRequest({url: 'hidden'}).then(function (data) {
             gridOptions.api.setRowData(data);
 
             gridOptions.api.sizeColumnsToFit();
